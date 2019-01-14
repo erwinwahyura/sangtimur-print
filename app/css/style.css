@@ -1,0 +1,99 @@
+.parent {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+}
+
+.header {
+  display: flex;
+  width: 70%;
+  /* border: 1px solid #000; */
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+}
+
+h3 {
+  margin: 0.5rem;
+}
+
+.menu {
+  display: flex;
+  width: 70%;
+  /* border: 1px solid #000; */
+  justify-content: center;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.otp {
+  display: flex;
+  width: 70%;
+  border: 1px solid #000;
+  justify-content: center;
+  margin: auto;
+  margin-top: 10px;
+  /* border-radius: 5px; */
+}
+
+.main {
+  display: flex;
+  width: 70%;
+  border: 1px solid #000;
+  justify-content: center;
+  margin: auto;
+  margin-top: 10px;
+  /* border-radius: 5px; */
+}
+
+/* content css is below */
+.otp-parent {
+  display: flex;
+  width: 100%;
+}
+.input-group {
+  display: flex;
+  width: 85%;
+  justify-content: flex-start;
+}
+.submit-print {
+  display: flex;
+  width: 15%;
+  justify-content: flex-end;
+}
+
+.btn-outline-secondary {
+  color: #ffffff;
+  border-color: #6c757d;
+  background: #3083ce;
+}
+
+.mb-3, .my-3 {
+  margin: 0.5rem!important;
+}
+
+.table-parent {
+  display: flex;
+  width: 100%;
+}
+
+.list-text {
+  font-weight: 500;
+}
+
+.col-for-no, .col-for-barcode {
+  text-align: center !important;
+}
+
+.for-no {
+  width: 50px;
+  text-align: center;
+}
+.for-barcode {
+  width: 250px;
+  text-align: center;
+}
+.for-sku {
+  text-align: left !important;
+}

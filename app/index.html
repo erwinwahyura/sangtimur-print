@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- dev mode -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- prod mode -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="parent">
+        <div class="header">
+          <header-main></header-main>
+        </div>
+        <div class="menu">
+          <!-- menu -->
+        </div>
+        <div class="otp">
+          <otp-main-and-submit></otp-main-and-submit>
+        </div>
+        <div class="main">
+          <main-list-barcode :listbarcodes="listBarcodes"></main-list-barcode>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIST COMPONENT -->
+    <script src="components/header.js"></script>
+    <script src="components/main.js"></script>
+    <script src="components/otp.js"></script>
+    <script>
+
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          listBarcodes: [{
+            barcode: '123',
+            quantity: 10,
+            sku: 'Lrem Ipsum is simply dummy text of the printing and typesetting industry.'
+          }, {
+            barcode: '123',
+            quantity: 10,
+            sku: 'buku'
+          }, {
+            barcode: '123',
+            quantity: 10,
+            sku: 'sepatu'
+          }, {
+            barcode: '123',
+            quantity: 10,
+            sku: 'pulpen'
+          }]
+        },
+        methods: {
+
+        },
+        created () {
+
+        }
+      })
+    </script>
+  </body>
+</html>
