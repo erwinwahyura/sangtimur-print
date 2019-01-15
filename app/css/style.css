@@ -82,12 +82,16 @@ h3 {
   font-weight: 500;
 }
 
-.col-for-no, .col-for-barcode {
+.col-for-no, .col-for-barcode, .col-for-qty {
   text-align: center !important;
 }
 
 .for-no {
   width: 50px;
+  text-align: center;
+}
+.for-qty {
+  width: 140px;
   text-align: center;
 }
 .for-barcode {
