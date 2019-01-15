@@ -23,10 +23,13 @@
           <!-- menu -->
         </div>
         <div class="otp">
-          <otp-main-and-submit></otp-main-and-submit>
+          <otp-main-and-submit
+            @send-print-barcode="doPrintBarcode"
+            @send-otp="findListBarcode">
+          </otp-main-and-submit>
         </div>
-        <div class="main">
-          <main-list-barcode :listbarcodes="listBarcodes"></main-list-barcode>
+        <div class="main" v-if="otpStatus">
+          <main-list-barcode :listbarcodes="barcodes"></main-list-barcode>
         </div>
       </div>
     </div>
@@ -56,10 +59,29 @@
             barcode: '123',
             quantity_print: 10,
             sku: 'pulpen'
-          }]
+          }],
+          barcodes: [],
+          otpStatus: false,
+          otpCode: ''
         },
         methods: {
-
+          findListBarcode (valueOTP) {
+            let self = this
+            axios.get(`http://localhost:3000/barcode/${valueOTP}`) .then(res => {
+              console.log(res.data);
+              self.barcodes = res.data.result
+              self.otpStatus = true
+            }).catch(err => {
+              console.log(err);
+            })
+          },
+          doPrintBarcode () {
+            if (this.otpStatus) {
+              alert('Printed!')
+            } else {
+              alert('Silahkan masukan kode print barcode anda...')
+            }
+          }
         },
         created () {
 

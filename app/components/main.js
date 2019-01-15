@@ -13,9 +13,9 @@ Vue.component('main-list-barcode', {
       <tbody>
         <tr class="table-body" v-for="(list, i) in listbarcodes" :key="i" scope="row">
           <th class="list-text for-no"> {{ i+1 }} </th>
-          <th class="list-text for-barcode"> {{ list.barcode }} </th>
-          <th class="list-text for-qty"> {{ list.quantity_print }} </th>
-          <th class="list-text for-sku"> {{ list.sku }} </th>
+          <th class="list-text for-barcode" v-if="list.sku_details"> {{ list.sku_details.barcode }} </th>
+          <th class="list-text for-qty" v-if="list.sku_details"> {{ list.sku_details.stock }} </th>
+          <th class="list-text for-sku v-if="list.skus"> {{ list.skus.name }} </th>
         </tr>
       </tbody>
     </table>
