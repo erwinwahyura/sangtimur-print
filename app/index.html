@@ -12,6 +12,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="lib/browser-print.js"></script>
+    <script src="lib/index.js"></script>
+    <script type="text/javascript">
+      $(document).ready(setup_web_print);
+    </script>
   </head>
   <body>
     <div id="app">
@@ -21,6 +26,14 @@
         </div>
         <div class="menu">
           <!-- menu -->
+          <div id="printer_select" class="printer-selected">
+            <div class="printer-name-option">
+              Zebra Printer Options
+            </div>
+            <div class="printer-current">
+              Printer: <select id="printers"></select>
+            </div>
+          </div> <!-- /printer_select -->
         </div>
         <div class="otp">
           <otp-main-and-submit
@@ -76,15 +89,90 @@
             })
           },
           doPrintBarcode () {
-            if (this.otpStatus) {
-              alert('Printed!')
-            } else {
-              alert('Silahkan masukan kode print barcode anda...')
-            }
+            // if (this.otpStatus) {
+              this.sendData()
+            // } else {
+              // alert('Silahkan masukan kode print barcode anda...')
+            // }
+          },
+          checkPrinterStatus (finishedFunction) {
+            selected_printer.sendThenRead("~HQES", function (text) {
+              console.log(text, '<--- textnya');
+              let statuses = new Array()
+              let ok = false
+              let is_error = text.charAt(70)
+              let media = text.charAt(88)
+              let head = text.charAt(87)
+              let pause = text.charAt(84)
+              // check each flag that prevents printing
+              if (is_error == '0') {
+                ok = true
+                statuses.push("Ready to Print")
+              }
+              if (media == '1')
+                statuses.push("Paper out")
+              if (media == '2')
+                statuses.push("Ribbon Out")
+              if (media == '4')
+                statuses.push("Media Door Open")
+              if (media == '8')
+                statuses.push("Cutter Fault")
+              if (head == '1')
+                statuses.push("Printhead Overheating")
+              if (head == '2')
+                statuses.push("Motor Overheating")
+              if (head == '4')
+                statuses.push("Printhead Fault")
+              if (head == '8')
+                statuses.push("Incorrect Printhead")
+              if (pause == '1')
+                statuses.push("Printer Paused")
+              if ((!ok) && (statuses.Count == 0))
+                statuses.push("Error: Unknown Error")
+                finishedFunction(statuses.join())
+            }, null)
+          },
+          sendData () {
+            let self = this
+
+          	self.checkPrinterStatus(function (text) {
+              let format_start,
+                  format_end
+          		if (text == "Ready to Print") {
+                format_start = `
+        				^XA
+                ^FO100,25^A2,25,10^FH^FDBaju Sekolah Putih Abu^FS
+                ^FO100,55^A2,25,10^FH^FDAbu^FS
+                ^FO100,85^A2,25,10^FH^FDSize: L^FS
+                ^FO100,90^BY2^BCN,55Y,,N
+      	        ^FO100,120^BC^FD1234567890^FS
+
+        				^FO450,25^A2,25,10^FH^FDBaju Seragam Putih^FS
+        				^FO450,55^A2,25,10^FH^FDAbu-abu^FS
+                ^FO450,85^A2,25,10^FH^FDSize: XL^FS
+                ^FO450,90^BY2^BCN,55Y,,N
+      	        ^FO450,120^BC^FD0000001111^FS
+        				`
+                format_end = "^FS^XZ"
+              selected_printer.send(format_start + format_end, null, null)
+          		}
+          	})
           }
         },
         created () {
-
+          // if nama sku panjang
+          // ^XA
+          // ^FO100,25^A2,25,10^FH^FDBaju Sekolah Putih Abu^FS
+          // ^FO100,55^A2,25,10^FH^FDAbu^FS
+          // ^FO100,85^A2,25,10^FH^FDSize: L^FS
+          // ^FO100,90^BY2^BCN,55Y,,N
+          // ^FO100,120^BC^FD1234567890^FS
+          //
+          // ini biasa normal print
+          // ^FO450,40^A2,25,10^FH^FDBaju Seragam Merah Putih^FS
+          // ^FO450,70^A2,25,10^FH^FDSize: XL^FS
+          // ^FO450,90^BY2^BCN,55Y,,N
+          // ^FO450,120^BC^FD0000001111^FS
         }
       })
     </script>

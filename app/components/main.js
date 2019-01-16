@@ -15,7 +15,7 @@ Vue.component('main-list-barcode', {
           <th class="list-text for-no"> {{ i+1 }} </th>
           <th class="list-text for-barcode" v-if="list.sku_details"> {{ list.sku_details.barcode }} </th>
           <th class="list-text for-qty" v-if="list.sku_details"> {{ list.sku_details.stock }} </th>
-          <th class="list-text for-sku v-if="list.skus"> {{ list.skus.name }} </th>
+          <th class="list-text for-sku" v-if="list.skus"> {{ list.skus.name }} </th>
         </tr>
       </tbody>
     </table>
