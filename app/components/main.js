@@ -11,15 +11,19 @@ Vue.component('main-list-barcode', {
         </tr>
       </thead>
       <tbody>
-        <tr class="table-body" v-for="(list, i) in listbarcodes" :key="i" scope="row">
+        <tr class="table-body" v-for="(list, i) in datas[0].barcode_list" :key="i" scope="row">
           <th class="list-text for-no"> {{ i+1 }} </th>
-          <th class="list-text for-barcode" v-if="list.sku_details"> {{ list.sku_details.barcode }} </th>
-          <th class="list-text for-qty" v-if="list.sku_details"> {{ list.sku_details.stock }} </th>
-          <th class="list-text for-sku" v-if="list.skus"> {{ list.skus.name }} </th>
+          <th class="list-text for-barcode" v-if="list.barcode"> {{ list.barcode }} </th>
+          <th class="list-text for-qty" v-if="list.quantity_print"> {{ list.quantity_print }} </th>
+          <th class="list-text for-sku" v-if="list.nama_sku && list.size"> {{ list.nama_sku }} - {{ list.size }} </th>
+          <th class="list-text for-sku" v-else="list.nama_sku"> {{ list.nama_sku }} </th>
         </tr>
       </tbody>
     </table>
   </div>
   `,
-  props: ['listbarcodes']
+  props: ['datas'],
+  created () {
+    console.log(this.datas);
+  }
 })

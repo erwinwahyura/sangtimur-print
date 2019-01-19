@@ -22,7 +22,7 @@
     <div id="app">
       <div class="parent">
         <div class="header">
-          <header-main></header-main>
+          <header-main :datas="barcodes"></header-main>
         </div>
         <div class="menu">
           <!-- menu -->
@@ -42,7 +42,7 @@
           </otp-main-and-submit>
         </div>
         <div class="main" v-if="otpStatus">
-          <main-list-barcode :listbarcodes="barcodes"></main-list-barcode>
+          <main-list-barcode :datas="barcodes"></main-list-barcode>
         </div>
       </div>
     </div>
