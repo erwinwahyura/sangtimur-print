@@ -15,8 +15,8 @@ Vue.component('main-list-barcode', {
           <th class="list-text for-no"> {{ i+1 }} </th>
           <th class="list-text for-barcode" v-if="list.barcode"> {{ list.barcode }} </th>
           <th class="list-text for-qty" v-if="list.quantity_print"> {{ list.quantity_print }} </th>
-          <th class="list-text for-sku" v-if="list.nama_sku && list.size"> {{ list.nama_sku }} - {{ list.size }} </th>
-          <th class="list-text for-sku" v-else="list.nama_sku"> {{ list.nama_sku }} </th>
+          <th class="list-text for-sku" v-if="list.sku_name && list.size"> {{ list.sku_name }} - {{ list.size }} </th>
+          <th class="list-text for-sku" v-else="list.sku_name"> {{ list.sku_name }} </th>
         </tr>
       </tbody>
     </table>

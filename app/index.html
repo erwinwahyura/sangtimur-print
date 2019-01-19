@@ -41,8 +41,13 @@
             @send-otp="findListBarcode">
           </otp-main-and-submit>
         </div>
-        <div class="main" v-if="otpStatus">
+        <div class="main" v-if="otpStatus === true">
           <main-list-barcode :datas="barcodes"></main-list-barcode>
+        </div>
+        <div class="main" v-if="otpStatus === 'loading'">
+          <div class="loader">
+            <img src="/assets/loader.gif">
+          </div>
         </div>
       </div>
     </div>
@@ -80,20 +85,22 @@
         methods: {
           findListBarcode (valueOTP) {
             let self = this
-            axios.get(`http://localhost:3000/barcode/${valueOTP}`) .then(res => {
+            self.otpStatus = 'loading'
+            axios.get(`http://localhost:3000/barcode/${valueOTP}`).then(res => {
               console.log(res.data);
               self.barcodes = res.data.result
               self.otpStatus = true
             }).catch(err => {
+              self.otpStatus = ''
               console.log(err);
             })
           },
           doPrintBarcode () {
-            // if (this.otpStatus) {
+            if (this.otpStatus === true) {
               this.sendData()
-            // } else {
-              // alert('Silahkan masukan kode print barcode anda...')
-            // }
+            } else {
+              alert('Silahkan masukan kode print barcode anda...')
+            }
           },
           checkPrinterStatus (finishedFunction) {
             selected_printer.sendThenRead("~HQES", function (text) {
