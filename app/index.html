@@ -127,7 +127,6 @@
 
           	self.checkPrinterStatus(function (text) {
               let barcode = self.barcodes[0].barcode_list
-              console.log(barcode, ' <==');
               let format_start,
                   format_end
           		if (text == "Ready to Print") {
@@ -142,27 +141,10 @@
                     ^FO100,120^BC^FD${barcode[i].barcode}^FS
                     `
                     format_end = "^FS^XZ"
-                  } else {
-                    if (barcode[i].quantity_print > 1 && barcode.length === 1) {
-                      console.log('// jika quantity kiri lebih dari 1 dan kanan tidak ada');
-                      for (let j = 0; j < barcode[i].quantity_print; j+=2) {
-                        format_start = `
-                        ^XA
-                        ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
-                        ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
-                        ^FO100,90^BY2^BCN,55Y,,N
-                        ^FO100,120^BC^FD${barcode[i].barcode}^FS
-
-                        ^FO450,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
-                        ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
-                        ^FO450,90^BY2^BCN,55Y,,N
-                        ^FO450,120^BC^FD${barcode[i+1].barcode}^FS
-                        `
-                        format_end = "^FS^XZ"
-                      }
-                    }
-                    else if (barcode[i].quantity_print === 1 && barcode[i+1].quantity_print === 1) {
-                      console.log('// jika quantity print kiri 1 dan kanan 1');
+                    selected_printer.send(format_start + format_end, null, null)
+                  } else if (barcode[i].quantity_print > 1 && barcode.length === 1) {
+                    console.log('// jika quantity kiri lebih dari 1 dan kanan tidak ada');
+                    for (let j = 0; j < barcode[i].quantity_print; j+=2) {
                       format_start = `
                       ^XA
                       ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
@@ -170,28 +152,97 @@
                       ^FO100,90^BY2^BCN,55Y,,N
                       ^FO100,120^BC^FD${barcode[i].barcode}^FS
 
-                      ^FO450,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
-                      ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
+                      ^FO450,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                      ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
                       ^FO450,90^BY2^BCN,55Y,,N
-                      ^FO450,120^BC^FD${barcode[i+1].barcode}^FS
+                      ^FO450,120^BC^FD${barcode[i].barcode}^FS
                       `
                       format_end = "^FS^XZ"
+                      selected_printer.send(format_start + format_end, null, null)
                     }
-                    else if (barcode[i].quantity_print === 1 && barcode[i+1].quantity_print > 1) {
-                      console.log('// jika quantity kiri 1 dan kanan lebih dari 1');
+                  }
+                  else if (barcode[i].quantity_print === 1 && barcode[i+1].quantity_print === 1) {
+                    console.log('// jika quantity print kiri 1 dan kanan 1');
+                    format_start = `
+                    ^XA
+                    ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                    ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                    ^FO100,90^BY2^BCN,55Y,,N
+                    ^FO100,120^BC^FD${barcode[i].barcode}^FS
+
+                    ^FO450,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
+                    ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
+                    ^FO450,90^BY2^BCN,55Y,,N
+                    ^FO450,120^BC^FD${barcode[i+1].barcode}^FS
+                    `
+                    format_end = "^FS^XZ"
+                    selected_printer.send(format_start + format_end, null, null)
+                  }
+                  else if (barcode[i].quantity_print === 1 && barcode[i+1].quantity_print > 1) {
+                    console.log('// jika quantity kiri 1 dan kanan lebih dari 1');
+                    format_start = `
+                    ^XA
+                    ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                    ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                    ^FO100,90^BY2^BCN,55Y,,N
+                    ^FO100,120^BC^FD${barcode[i].barcode}^FS
+                    `
+                    format_end = "^FS^XZ"
+                    selected_printer.send(format_start + format_end, null, null)
+
+                    for (let j = 0; j < barcode[i+1].quantity_print; j+=2) {
+                      console.log('masuk sini');
                       format_start = `
                       ^XA
                       ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
                       ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
                       ^FO100,90^BY2^BCN,55Y,,N
                       ^FO100,120^BC^FD${barcode[i].barcode}^FS
+
+                      ^FO450,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                      ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                      ^FO450,90^BY2^BCN,55Y,,N
+                      ^FO450,120^BC^FD${barcode[i].barcode}^FS
                       `
                       format_end = "^FS^XZ"
+                      selected_printer.send(format_start + format_end, null, null)
+                    }
 
-                      console.log(barcode[i+1].quantity_print,  'L<===');
+                  }
+                  else if (barcode[i].quantity_print > 1 && barcode[i+1].quantity_print === 1) {
+                    console.log('// jika quantity kiri lebih dari 1 dan kanan 1');
+                    for (let j = 0; j < barcode[i].quantity_print; j+=2) {
+                      format_start = `
+                      ^XA
+                      ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                      ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                      ^FO100,90^BY2^BCN,55Y,,N
+                      ^FO100,120^BC^FD${barcode[i].barcode}^FS
 
-                      for (let j = 0; j < barcode[i+1].quantity_print; j+=2) {
-                        console.log('masuk sini');
+                      ^FO450,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                      ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                      ^FO450,90^BY2^BCN,55Y,,N
+                      ^FO450,120^BC^FD${barcode[i].barcode}^FS
+                      `
+                      format_end = "^FS^XZ"
+                      selected_printer.send(format_start + format_end, null, null)
+                    }
+
+                    format_start = `
+                    ^XA
+                    ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                    ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                    ^FO100,90^BY2^BCN,55Y,,N
+                    ^FO100,120^BC^FD${barcode[i].barcode}^FS
+                    `
+                    format_end = "^FS^XZ"
+                    selected_printer.send(format_start + format_end, null, null)
+                  }
+                  else if (barcode[i].quantity_print > 1 && barcode[i+1].quantity_print > 1) {
+                    console.log('// jika quantity kiri dan kanan lebih dari 1');
+                    if (barcode[i].quantity_print % 2 !== 0) {
+                      // kalo tidak genap
+                      for (let j = 0; j < barcode[i].quantity_print - 1; j+=2) {
                         format_start = `
                         ^XA
                         ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
@@ -205,11 +256,19 @@
                         ^FO450,120^BC^FD${barcode[i].barcode}^FS
                         `
                         format_end = "^FS^XZ"
+                        selected_printer.send(format_start + format_end, null, null)
                       }
-
-                    }
-                    else if (barcode[i].quantity_print > 1 && barcode[i+1].quantity_print === 1) {
-                      console.log('// jika quantity kiri lebih dari 1 dan kanan 1');
+                      format_start = `
+                      ^XA
+                      ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
+                      ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                      ^FO100,90^BY2^BCN,55Y,,N
+                      ^FO100,120^BC^FD${barcode[i].barcode}^FS
+                      `
+                      format_end = "^FS^XZ"
+                      selected_printer.send(format_start + format_end, null, null)
+                    } else {
+                      // kalo genap
                       for (let j = 0; j < barcode[i].quantity_print; j+=2) {
                         format_start = `
                         ^XA
@@ -224,26 +283,18 @@
                         ^FO450,120^BC^FD${barcode[i].barcode}^FS
                         `
                         format_end = "^FS^XZ"
+                        selected_printer.send(format_start + format_end, null, null)
                       }
-
-                      format_start = `
-                      ^XA
-                      ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
-                      ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
-                      ^FO100,90^BY2^BCN,55Y,,N
-                      ^FO100,120^BC^FD${barcode[i].barcode}^FS
-                      `
-                      format_end = "^FS^XZ"
                     }
-                    else if (barcode[i].quantity_print > 1 && barcode[i+1].quantity_print > 1) {
-                      console.log('// jika quantity kiri dan kanan lebih dari 1');
-                      for (let j = 0; j < barcode[i].quantity_print; j+=2) {
+
+                    if (barcode[i+1].quantity_print % 2 !== 0) {
+                      for (let j = 0; j < barcode[i+1].quantity_print - 1 ; j+=2) {
                         format_start = `
                         ^XA
-                        ^FO100,25^A2,25,10^FH^FD${barcode[i].sku_name}^FS
-                        ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i].size}^FS
+                        ^FO100,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
+                        ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
                         ^FO100,90^BY2^BCN,55Y,,N
-                        ^FO100,120^BC^FD${barcode[i].barcode}^FS
+                        ^FO100,120^BC^FD${barcode[i+1].barcode}^FS
 
                         ^FO450,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
                         ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
@@ -251,26 +302,36 @@
                         ^FO450,120^BC^FD${barcode[i+1].barcode}^FS
                         `
                         format_end = "^FS^XZ"
+                        selected_printer.send(format_start + format_end, null, null)
                       }
-
+                      format_start = `
+                      ^XA
+                      ^FO100,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
+                      ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
+                      ^FO100,90^BY2^BCN,55Y,,N
+                      ^FO100,120^BC^FD${barcode[i+1].barcode}^FS
+                      `
+                      format_end = "^FS^XZ"
+                      selected_printer.send(format_start + format_end, null, null)
+                    } else {
                       for (let j = 0; j < barcode[i+1].quantity_print; j+=2) {
                         format_start = `
                         ^XA
-                        ^FO100,25^A2,25,10^FH^FD${barcode[j].sku_name}^FS
-                        ^FO100,85^A2,25,10^FH^FDSize: ${barcode[j].size}^FS
+                        ^FO100,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
+                        ^FO100,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
                         ^FO100,90^BY2^BCN,55Y,,N
-                        ^FO100,120^BC^FD${barcode[j].barcode}^FS
+                        ^FO100,120^BC^FD${barcode[i+1].barcode}^FS
 
-                        ^FO450,25^A2,25,10^FH^FD${barcode[j+1].sku_name}^FS
-                        ^FO450,85^A2,25,10^FH^FDSize: ${barcode[j+1].size}^FS
+                        ^FO450,25^A2,25,10^FH^FD${barcode[i+1].sku_name}^FS
+                        ^FO450,85^A2,25,10^FH^FDSize: ${barcode[i+1].size}^FS
                         ^FO450,90^BY2^BCN,55Y,,N
-                        ^FO450,120^BC^FD${barcode[j+1].barcode}^FS
+                        ^FO450,120^BC^FD${barcode[i+1].barcode}^FS
                         `
                         format_end = "^FS^XZ"
+                        selected_printer.send(format_start + format_end, null, null)
                       }
                     }
                   }
-                  selected_printer.send(format_start + format_end, null, null)
                 }
           		}
           	})
