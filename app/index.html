@@ -63,7 +63,8 @@
         data: {
           barcodes: [],
           otpStatus: false,
-          otpCode: ''
+          otpCode: '',
+          barcodeId: ''
         },
         methods: {
           findListBarcode (valueOTP) {
@@ -72,9 +73,18 @@
             axios.get(`https://api-st.uniform.id/barcode/${valueOTP}`).then(res => {
               console.log(res.data);
               self.barcodes = res.data.result
+              self.barcodeId = res.data.result[0]._id
               self.otpStatus = true
             }).catch(err => {
               self.otpStatus = ''
+              console.log(err);
+            })
+          },
+          printDone() {
+            let self = this
+            axios.delete(`https://api-st.unifor.id/barcode/${self.barcodeId}`).then(res => {
+              console.log('done delete barcode list');
+            }).catch(err => {
               console.log(err);
             })
           },
@@ -335,6 +345,7 @@
                 }
           		}
           	})
+            self.printDone()
           }
         },
         created () {
