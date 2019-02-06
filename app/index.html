@@ -69,7 +69,7 @@
           findListBarcode (valueOTP) {
             let self = this
             self.otpStatus = 'loading'
-            axios.get(`http://localhost:3000/barcode/${valueOTP}`).then(res => {
+            axios.get(`https://api-st.uniform.id/barcode/${valueOTP}`).then(res => {
               console.log(res.data);
               self.barcodes = res.data.result
               self.otpStatus = true
