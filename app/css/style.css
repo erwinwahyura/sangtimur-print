@@ -1,13 +1,13 @@
 .parent {
   display: flex;
-  width: 100%;
+  width: 1080px;
   flex-direction: column;
-
+  margin: auto;
 }
 
 .header {
   display: flex;
-  width: 70%;
+  width: 100%;
   /* border: 1px solid #000; */
   justify-content: center;
   margin: auto;
@@ -20,7 +20,7 @@ h3 {
 
 .menu {
   display: flex;
-  width: 70%;
+  width: 100%;
   /* border: 1px solid #000; */
   justify-content: flex-end;
   margin: auto;
@@ -29,7 +29,7 @@ h3 {
 
 .otp {
   display: flex;
-  width: 70%;
+  width: 100%;
   border: 1px solid #000;
   justify-content: center;
   margin: auto;
@@ -39,7 +39,7 @@ h3 {
 
 .main {
   display: flex;
-  width: 70%;
+  width: 100%;
   border: 1px solid #000;
   justify-content: center;
   margin: auto;
