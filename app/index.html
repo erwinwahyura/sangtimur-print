@@ -82,7 +82,7 @@
           },
           printDone() {
             let self = this
-            axios.delete(`https://api-st.unifor.id/barcode/${self.barcodeId}`).then(res => {
+            axios.delete(`https://api-st.uniform.id/barcode/${self.barcodeId}`).then(res => {
               console.log('done delete barcode list');
             }).catch(err => {
               console.log(err);
